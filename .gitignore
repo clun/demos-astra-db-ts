@@ -8,6 +8,7 @@
 # building
 node_modules
 dist
+setup-api.sh
 
 # misc
 .DS_Store
