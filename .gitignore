@@ -1,0 +1,14 @@
+# conf
+.env
+*-lock.json
+*.ipr
+*.iws
+*.iml
+
+# building
+node_modules
+dist
+
+# misc
+.DS_Store
+*.log
