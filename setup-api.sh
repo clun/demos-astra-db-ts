@@ -2,9 +2,9 @@
 
 # PROD or DEV
 export ASTRA_DB_ENV="PROD"
-export ASTRA_DB_ID="<change_me>"
-export ASTRA_DB_REGION="<change_me>"
-export ASTRA_DB_APPLICATION_TOKEN="<change_me>"
+export ASTRA_DB_ID="4391daae-016c-49e3-8d0a-b4633a86082c"
+export ASTRA_DB_REGION="us-east1"
+export ASTRA_DB_APPLICATION_TOKEN="AstraCS:iLPiNPxSSIdefoRdkTWCfWXt:2b360d096e0e6cb732371925ffcc6485541ff78067759a2a1130390e231c2c7a"
 
 if [ "$ASTRA_DB_ENV" = "PROD" ]; then
     export ASTRA_DB_API_ENDPOINT="https://$ASTRA_DB_ID-$ASTRA_DB_REGION.apps.astra.datastax.com"

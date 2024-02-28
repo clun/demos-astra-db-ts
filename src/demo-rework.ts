@@ -42,33 +42,31 @@ async function main() {
     const ASTRA_DB_APPLICATION_TOKEN: string = process.env.ASTRA_DB_APPLICATION_TOKEN || '';
     const ASTRA_DB_API_ENDPOINT: string = process.env.ASTRA_DB_API_ENDPOINT|| '';
     const db: AstraDB = new AstraDB(ASTRA_DB_APPLICATION_TOKEN, ASTRA_DB_API_ENDPOINT);
+    console.log('Connected to db & namespame=' + db.keyspace);
 
     try {
         
         // Collections initializations (typed)
-        const collection_simple: Collection = 
-            await db.createCollection<Product>('collection_simple');
+        const collection_simple: Collection = await db.createCollection<Product>('collection_simple');
+        console.log('+ Collection ' + collection_simple.name + ' created (if needed)');
+ 
+        // Flush the collection if not null
+        collection_simple.deleteMany({});
+        console.log('+ Collection ' + collection_simple.name + ' flushed');
         
         // Inserting a simple 
         const p1: Product = generateRandomProductList(1)[0];
-        p1._id="test";
-        
         const resultOne: InsertOneResult = await collection_simple.insertOne(p1);
-        console.log(resultOne.insertedId);
+        console.log('+ One Product inserted id=' + resultOne.insertedId);
 
         const resultMany: InsertManyResult = await collection_simple.insertMany(generateRandomProductList(20));
-        console.log(resultMany.insertedIds);
+        const count1: number = await collection_simple.countDocuments();
+        console.log('+ InserMany with 20, insertedIdsLength=' + resultMany.insertedIds.length + ', total item(s) in collection= ' + count1);
 
-        const collection_vector: Collection = await db.createCollection<ProductWithVector>('collection_vector', {
-            vector: {
-                dimension: 1536,
-                metric: 'cosine'
-            }
-        });
+        const resultManyBulk: InsertManyResult = await collection_simple.insertManyBulk(generateRandomProductList(50));
+        const count2: number = await collection_simple.countDocuments();
+        console.log('+ InserMany with 50, InsertManyResult.insertedIds.length=' + resultMany.insertedIds.length + ', total item(s) in collection= ' + count2);
         
-        collection_simple.findOne
-
-
     } catch (error) {
         console.error("An error occurred while computing embeddings:", error);
     }
